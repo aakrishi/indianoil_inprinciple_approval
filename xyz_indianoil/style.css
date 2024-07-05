@@ -1,0 +1,131 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Main Container */
+.main {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px; /* Increased width */
+    width: 100%;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 90vh;
+
+    /* Added border */
+    border-top: 8px solid #007bff; /* Top border color */
+}
+
+/* Headers */
+h1 {
+    margin-bottom: 10px;
+    color: #333;
+    font-family: 'Trebuchet MS', sans-serif;
+}
+
+h3 {
+    margin-bottom: 10px;
+    color: #555;
+    font-weight: normal;
+}
+
+/* Labels */
+label {
+    display: block;
+    text-align: left;
+    margin: 8px 0 4px;
+    color: #333;
+    font-family: 'Verdana', sans-serif;
+}
+
+/* Inputs and Textareas */
+input[type="text"],
+input[type="password"],
+textarea,
+input[type="date"] {
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    width: 100%;
+    font-family: 'Verdana', sans-serif;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+input[type="date"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Dialogue Box Styles */
+.dialogue-box {
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+/* Radio Buttons */
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Button Wrapper */
+.wrap {
+    text-align: center;
+    clear: both;
+}
+
+/* Buttons */
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Verdana', sans-serif;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Hidden Elements */
+.hidden {
+    display: none;
+}
+
+/* Links */
+a {
+    color: #007bff;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Save Message */
+#saveMessage {
+    color: #28a745;
+    margin-top: 10px;
+    font-weight: bold;
+}

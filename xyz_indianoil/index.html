@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Indian Oil - Login & Approval</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="loginContainer" class="main">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2YWyGg708EyJcLsh2iEGvGL1eTst1ishCip0FTNHzmipooHqtU53N3fDLz--5SpSbnUI&usqp=CAU"
+            alt="Company Logo" class="company-logo">
+        <h1>INDIAN OIL</h1>
+        <h3>Enter your login credentials</h3>
+        <form id="loginForm">
+            <label for="first">Username:</label>
+            <input type="text" id="first" name="first" placeholder="Enter your Username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your Password" required>
+
+            <div class="wrap">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+        <p>Not registered?
+            <a href="#" style="text-decoration: none;">Create an account</a>
+        </p>
+    </div>
+
+    <div id="dialogueContainer" class="main hidden">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR2YWyGg708EyJcLsh2iEGvGL1eTst1ishCip0FTNHzmipooHqtU53N3fDLz--5SpSbnUI&usqp=CAU"
+            alt="Company Logo" class="company-logo">
+        <h1>IN-PRINCIPLE APPROVAL</h1>
+        <br>
+        <div class="dialogue-inline">
+            <div class="dialogue-box-inline">
+                <label for="dialogue1">Ref No:</label>
+                <input type="text" id="dialogue1" name="dialogue1" readonly>
+            </div>
+            <div class="dialogue-box-inline">
+                <label for="dialogue2">Section:</label>
+                <textarea id="dialogue2" name="dialogue2" readonly>Information Systems</textarea>
+            </div>
+            <div class="dialogue-box-inline">
+                <label for="dialogue3">Department:</label>
+                <textarea id="dialogue3" name="dialogue3" readonly>Information Technology</textarea>
+            </div>
+            <div class="dialogue-box-inline">
+                <label for="dialogue4">Location:</label>
+                <textarea id="dialogue4" name="dialogue4" readonly>Uttar Pradesh</textarea>
+            </div>
+        </div>
+        <div class="dialogue-box">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date">
+        </div>
+        <div class="dialogue-box">
+            <label for="dialogue5">Subject:</label>
+            <textarea id="dialogue5" name="dialogue5">Default message 5</textarea>
+        </div>
+        <div class="dialogue-box">
+            <label for="dialogue6">Perspective:</label>
+            <textarea id="dialogue6" name="dialogue6">Default message 6</textarea>
+        </div>
+        <div class="dialogue-box">
+            <label for="dialogue7">Proposal:</label>
+            <textarea id="dialogue7" name="dialogue7">Default message 7</textarea>
+        </div>
+        <div class="dialogue-box">
+            <label for="dialogue8">Conclusion:</label>
+            <textarea id="dialogue8" name="dialogue8">Default message 8</textarea>
+        </div>
+        <div class="dialogue-box">
+            <label>Confidential:</label>
+            <label><input type="radio" name="confidential" value="Yes" checked> Yes</label>
+            <label><input type="radio" name="confidential" value="No"> No</label>
+        </div>
+        <div class="wrap">
+            <button id="saveBtn">Save as pdf</button>
+        </div>
+        <p id="saveMessage" class="hidden">Information saved</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form from submitting
+
+            const username = document.getElementById('first').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'user' && password === 'pass') {
+                alert('Valid');
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('dialogueContainer').classList.remove('hidden');
+                // Set the reference number
+                const refNo = generateRefNo();
+                document.getElementById('dialogue1').value = refNo;
+                // Set the date input to today's date
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('date').value = today;
+            } else {
+                alert('Invalid');
+            }
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', async function () {
+            const dialogue1 = document.getElementById('dialogue1').value;
+            const dialogue2 = document.getElementById('dialogue2').value;
+            const dialogue3 = document.getElementById('dialogue3').value;
+            const dialogue4 = document.getElementById('dialogue4').value;
+            const date = formatDate(document.getElementById('date').value); // Format date
+            const dialogue5 = document.getElementById('dialogue5').value;
+            const dialogue6 = document.getElementById('dialogue6').value;
+            const dialogue7 = document.getElementById('dialogue7').value;
+            const dialogue8 = document.getElementById('dialogue8').value;
+            const confidential = document.querySelector('input[name="confidential"]:checked').value;
+
+            const { jsPDF } = window.jspdf;
+
+            const doc = new jsPDF();
+
+            // Add title
+            doc.setFontSize(18);
+            doc.setTextColor(40, 40, 40);
+            doc.text('INPRINCIPLE APPROVAL', 10, 20);
+
+            // Add some margin
+            let y = 30;
+
+            // Add subtitle and content
+            function addSection(title, content) {
+                doc.setFontSize(12);
+                doc.setTextColor(0, 102, 204); // Blue color
+                doc.text(title, 10, y);
+                y += 6;
+                doc.setFontSize(10);
+                doc.setTextColor(0, 0, 0); // Black color
+                doc.text(content, 10, y);
+                y += 10;
+            }
+
+            addSection('Ref No:', dialogue1);
+            addSection('Section:', dialogue2);
+            addSection('Department:', dialogue3);
+            addSection('Location:', dialogue4);
+            addSection('Date:', date);
+            addSection('Subject:', dialogue5);
+            addSection('Perspective:', dialogue6);
+            addSection('Proposal:', dialogue7);
+            addSection('Conclusion:', dialogue8);
+            addSection('Confidential:', confidential);
+
+            doc.save('dialogues.pdf');
+
+            // Show the save message
+            document.getElementById('saveMessage').classList.remove('hidden');
+        });
+
+        // Function to format the date as YYYY-MM-DD
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            return `${year}-${month}-${day}`;
+        }
+
+        // Function to generate a reference number
+        function generateRefNo() {
+            const prefix = 'UP/24-25/';
+            const randomNum = Math.floor(10000 + Math.random() * 90000); // Generate a random 5-digit number
+            return `${prefix}${randomNum}`;
+        }
+    </script>
+</body>
+
+</html>
